@@ -1,0 +1,36 @@
+services:
+  app:
+    image: registry.cn-shanghai.aliyuncs.com/rustc/easynvr_amd64:latest
+    restart: always
+    # linux 请使用 host 模式
+    network_mode: host
+    # MacOS/Windows 请注释上面的 host 模式，并解开以下注释
+    # ports:
+    #   - 10000:10000/tcp
+    #   - 10010:10010/tcp
+    #   - 28080:28080/tcp
+    #   - 24433:24433/tcp
+    #   - 25544:25544/tcp
+    #   - 21930:21930/tcp
+
+    #   - 15060:15060/tcp
+    #   - 15060:15060/udp
+
+    #   - 24888:24888/tcp
+    #   - 24888:24888/udp
+
+    #   - 30000-30500:30000-30500/tcp
+    #   - 30000-30500:30000-30500/udp
+    logging:
+      options:
+        max-size: "50M"
+    deploy:
+      resources:
+        limits:
+          # 限制内存使用上限，根据实际内存修改
+          memory: 12g
+    volumes:
+      # 授权/配置文件持久化
+      - ./data:/app
+      # 录像,如果需要单独将录像文件持久化到另一个磁盘，可以解开下一行注释并修改
+      - ./record:/app/r

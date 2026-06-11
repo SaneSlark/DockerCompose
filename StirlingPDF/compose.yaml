@@ -1,0 +1,17 @@
+services:
+  stirling-pdf:
+    image: frooodle/s-pdf:latest
+    container_name: stirling-pdf
+    network_mode: bridge
+    environment:
+      - DISABLE_ADDITIONAL_FEATURES=false
+      - LANGS=zh_CN
+    ports:
+      - '2255:8080'
+    volumes:
+      - ./tessdata:/usr/share/tessdata  # 需要额外的OCR识别
+      - ./configs:/configs
+      - ./logs:/logs
+      - ./pipeline:/pipeline
+      - ./customFiles:/customFiles
+    restart: unless-stopped

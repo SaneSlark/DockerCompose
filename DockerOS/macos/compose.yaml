@@ -1,0 +1,28 @@
+services:
+  macos:
+    image: dockurr/macos:latest
+    container_name: macos
+    environment:
+      VERSION: "15"           # Windows 版本
+      DISK_SIZE: "50G"        # 硬盘大小，单位 G
+      RAM_SIZE: "4G"          # 内存大小
+      CPU_CORES: "2"          # CPU 核心数
+
+    devices:
+      - /dev/kvm
+      - /dev/net/tun
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - 8006:8006                    # VNC网页端口
+      - 5900:5900/tcp                # VNC（远程桌面协议）
+      - 5900:5900/udp
+    volumes:
+      - ./storage:/storage           # 挂载存储目录
+      - ./data:/shared               # 文件共享目录
+
+    stop_grace_period: 2m            # 停止时的宽限时间
+    restart: unless-stopped          # 自动重启策略
+    network_mode: bridge
+    tty: true
+    stdin_open: true

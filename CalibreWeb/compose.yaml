@@ -1,0 +1,37 @@
+services:
+  calibre-web-automated:
+    image: crocodilestick/calibre-web-automated:latest
+    container_name: calibre-web
+    network_mode: bridge
+    environment:
+      - TZ=Asia/Shanghai
+      - PUID=1000
+      - PGID=100
+    ports:
+      - 2277:8083
+    volumes:
+      - ./config:/config
+      - ./books:/cwa-book-ingest
+      - ./library:/calibre-library
+    restart: unless-stopped
+
+  calibre-web-automated-book-downloader:
+    image: ghcr.io/calibrain/calibre-web-automated-book-downloader:latest
+    container_name: calibre-download
+    network_mode: bridge
+    environment:
+      - FLASK_PORT=2278
+      - BOOK_LANGUAGE=zh
+      - USE_BOOK_TITLE=true
+      - LOG_LEVEL=info
+      - APP_ENV=prod
+      - TZ=Asia/Shanghai
+      - UID=1000
+      - GID=100
+      - MAX_CONCURRENT_DOWNLOADS=3
+      - DOWNLOAD_PROGRESS_UPDATE_INTERVAL=5
+    ports:
+      - 2278:2278
+    volumes:
+      - ./books:/cwa-book-ingest
+    restart: unless-stopped

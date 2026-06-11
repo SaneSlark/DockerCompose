@@ -1,0 +1,125 @@
+###############################################
+# Global settings -> General
+
+logLevel: info
+logDestinations: [stdout]
+
+readTimeout: 10s
+writeTimeout: 10s
+writeQueueSize: 512
+udpMaxPayloadSize: 1472
+
+###############################################
+# Global settings -> Authentication
+
+authMethod: internal
+authInternalUsers:
+  # 自定义用户
+  - user: admin
+    pass: password
+    ips: []  # 空列表表示允许所有 IP
+    permissions:
+      - action: api       # 控制 API
+      - action: metrics   # 监控指标
+      - action: pprof     # 性能分析
+
+  # 默认无权限用户
+  - user: any
+    pass:
+    ips: []
+    permissions:
+      - action: publish    # 发布流
+      - action: read       # 读取流
+      - action: playback   # 回放流
+
+###############################################
+# Global settings -> Control API 
+
+api: yes
+apiAddress: :9997
+apiEncryption: no
+apiAllowOrigin: '*'
+apiTrustedProxies: []
+
+metrics: yes
+metricsAddress: :9998
+metricsEncryption: no
+metricsAllowOrigin: '*'
+metricsTrustedProxies: []
+
+pprof: yes
+pprofAddress: :9999
+pprofEncryption: no
+pprofAllowOrigin: '*'
+pprofTrustedProxies: []
+
+###############################################
+# Global settings -> Playback server
+
+playback: yes
+playbackAddress: :9996
+playbackEncryption: no
+playbackAllowOrigin: '*'
+playbackTrustedProxies: []
+
+###############################################
+# Global settings -> RTSP server
+
+rtsp: yes
+rtspAddress: :8554
+rtspTransports: [tcp, udp]
+
+###############################################
+# Global settings -> RTMP server
+
+rtmp: yes
+rtmpAddress: :1935
+
+###############################################
+# Global settings -> HLS server
+
+hls: yes
+hlsAddress: :8888
+hlsEncryption: no
+hlsAllowOrigin: '*'
+hlsTrustedProxies: []
+
+###############################################
+# Global settings -> WebRTC server
+
+webrtc: yes
+webrtcAddress: :8889
+webrtcEncryption: no
+webrtcAllowOrigin: '*'
+webrtcTrustedProxies: []
+webrtcLocalUDPAddress: :8189
+#webrtcAdditionalHosts: [36.33.27.30]
+webrtcICEServers2:
+  - url: "stun:stun.l.google.com:19302"
+  - url: "stun:stun1.l.google.com:19302"
+
+###############################################
+#Default path settings
+
+pathDefaults:
+
+  record: yes
+  recordPath: ./recordings/%path/%Y%m%d_%H%M%S_%f
+  recordFormat: fmp4
+  recordPartDuration: 10s
+  recordSegmentDuration: 1h
+  recordDeleteAfter: 0s
+
+  useAbsoluteTimestamp: false
+  sourceOnDemand: no
+  rtspTransport: tcp
+
+###############################################
+# Path settings
+
+paths:
+  camera1:
+    source: rtsp://admin:Bafang123.@112.31.105.182:8554/video2
+  camera2:
+    source: publisher
+

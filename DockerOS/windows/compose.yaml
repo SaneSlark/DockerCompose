@@ -1,0 +1,32 @@
+services:
+  windows:
+    image: dockurr/windows:latest
+    container_name: Win7
+    devices:
+      - /dev/kvm           # 仅限 Linux 宿主机
+      - /dev/net/tun       # 网络相关
+    cap_add:
+      - NET_ADMIN          # 网络管理权限
+    environment:
+      VERSION: "7e"       # 如果使用 custom.iso，此项通常会被忽略，可注释
+      DISK_SIZE: "30G"
+      RAM_SIZE: "4G"
+      CPU_CORES: "2"
+      REGION: "zh-CN"
+      KEYBOARD: "zh-CN"
+      LANGUAGE: "Chinese"
+      # 如果你需要全自动安装，建议设置密码，否则安装完成后可能需要手动创建用户
+      # USERNAME: "admin"
+      # PASSWORD: "password123"
+    ports:
+      - 9091:8006          # VNC 网页控制台 (http://localhost:9091)
+      - 3391:3389/tcp      # RDP 远程桌面
+      - 3391:3389/udp      # RDP UDP (保持端口一致)
+    volumes:
+     - ./win7.iso:/custom.iso   # 使用本地 ISO
+      - ./storage:/storage      # 虚拟硬盘存放位置
+      - ./data:/shared          # 【修改】挂载到 /shared 以便在 VM 内部访问
+    tty: true
+    stdin_open: true
+    stop_grace_period: 2m       # 停止时的宽限时间
+    restart: unless-stopped     # 自动重启策略

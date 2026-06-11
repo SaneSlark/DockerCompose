@@ -1,0 +1,31 @@
+services:
+  siyuan:
+    image: nfew/siyuan:latest
+    container_name: siyuan
+    network_mode: bridge
+    environment:
+      - TZ=Asia/Shanghai
+    ports:
+      - 2268:6806
+    volumes:
+      - ./siyuan:/siyuan/workspace
+    command:
+      - --workspace=/siyuan/workspace
+      - --accessAuthCode=password.00
+    restart: unless-stopped
+
+  webdav:
+    image: ugeek/webdav:amd64
+    container_name: webdav
+    network_mode: bridge
+    environment:
+      - TZ=Asia/Shanghai
+      - UID=1000
+      - GID=1000
+      - USERNAME=hehua
+      - PASSWORD=123.00
+    ports:
+      - 2267:80
+    volumes:
+      - ./webdav:/media
+    restart: unless-stopped

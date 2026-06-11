@@ -1,0 +1,30 @@
+services:
+  mariadb:
+    image: mariadb:11.0
+    container_name: nextcloud-db
+    restart: always
+    environment:
+      - MARIADB_ROOT_PASSWORD=Password  # 请修改为强密码
+      - MARIADB_DATABASE=nextcloud
+      - MARIADB_USER=nextcloud
+      - MARIADB_PASSWORD=Password  # 请与上方一致
+    volumes:
+      - ./mariadb:/var/lib/mysql  # 持久化数据库文件
+
+  nextcloud:
+    image: nextcloud:latest
+    container_name: nextcloud-app
+    restart: always
+    environment:
+      - MYSQL_HOST=mariadb
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_PASSWORD=Password  # 请修改为强密码
+      # 添加信任域名配置
+      - NEXTCLOUD_TRUSTED_DOMAINS=localhost 127.0.0.1 ::1 host.docker.internal 192.168.10.22 hehua.dscloud.me
+    ports:
+      - 2288:80
+    volumes:
+      - ./data:/var/www/html  # 持久化 Nextcloud 数据和文件
+    depends_on:
+      - mariadb

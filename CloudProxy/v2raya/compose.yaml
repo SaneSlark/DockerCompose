@@ -1,0 +1,19 @@
+services:
+  v2raya:
+    image: mzz2017/v2raya:latest
+    container_name: v2raya
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    environment:
+      - V2RAYA_ADDRESS=0.0.0.0            #(默认，Web UI 监听地址)
+      - V2RAYA_PORT=2017                  #(默认，Web UI 监听端口)
+      - V2RAYA_RPC_LISTEN_PORT=20170      #(内部 RPC 端口)
+      - V2RAYA_LOG_FILE=/tmp/v2raya.log
+      - V2RAYA_V2RAY_BIN=/usr/local/bin/v2ray
+      - V2RAYA_NFTABLES_SUPPORT=off
+      - IPTABLES_MODE=legacy
+    volumes:
+      - ./data:/etc/v2raya             #  持久化配置和数据
+    restart: always

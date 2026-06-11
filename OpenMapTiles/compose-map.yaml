@@ -1,0 +1,21 @@
+# 文件名：docker-compose-map.yml
+# 用途：下载 pbf + 辅助文件 + 生成 china.pmtiles
+# 使用方式： docker compose -f docker-compose-map.yml up
+
+services:
+  planetiler:
+    image: ghcr.io/onthegomap/planetiler:latest
+    container_name: planetiler-china
+    # 故意不加 restart，因为是一次性任务
+    volumes:
+      - ./data:/data
+    command: >
+      generate-openmaptiles
+      --osm-path=/data/china-latest.osm.pbf
+      --output=/data/china.pmtiles
+      --area=china
+      --max-zoom=18
+      --threads=8
+      --download
+      --verbose
+      --force

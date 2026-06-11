@@ -1,0 +1,14 @@
+[Unit]
+Description=Camera delay manager
+After=network.target mediamtx.service
+
+[Service]
+User=root
+ExecStart=/usr/bin/python3 /etc/mediamtx/camera.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

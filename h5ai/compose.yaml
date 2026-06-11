@@ -1,0 +1,20 @@
+services:
+  h5ai:
+    image: awesometic/h5ai:latest
+    container_name: h5ai
+    network_mode: bridge
+    environment:
+      - TZ=Asia/Shanghai
+      - PUID=1000
+      - PGID=1000
+      #  开启加密访问
+      #- HTPASSWD=true
+      #- HTPASSWD_USER=awesometic
+      #- HTPASSWD_PW=awesometic
+    ports:
+      - "2256:80"
+    volumes:
+      - ./config:/config
+      - ./files:/h5ai        #需要分享的文件夹
+    restart: unless-stopped
+    

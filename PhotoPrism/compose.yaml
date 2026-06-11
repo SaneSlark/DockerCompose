@@ -1,0 +1,40 @@
+services:
+  database:
+    image: mariadb:11.0
+    container_name: photoprism-db
+    environment:
+      - TZ=Asia/Shanghai
+      - PUID=0
+      - PGID=0
+      - MARIADB_AUTO_UPGRADE=1
+      - MARIADB_CHARSET=utf8mb4
+      - MARIADB_COLLATION=utf8mb4_unicode_ci
+      - MYSQL_ROOT_PASSWORD=photoprism
+      - MYSQL_DATABASE=photoprism
+      - MYSQL_USER=photoprism
+      - MYSQL_PASSWORD=photoprism        # 对应 PhotoPrism DSN 中的密码
+    volumes:
+      - ./database:/var/lib/mysql        # 数据库持久化存储路径
+    restart: always
+
+  photoprism:
+    image: photoprism/photoprism:latest
+    container_name: photoprism-app
+    environment:
+      - TZ=Asia/Shanghai
+      - PUID=0
+      - PGID=0
+      - PHOTOPRISM_AUTH_MODE=public          # 可以设置为 public 或 password
+      - PHOTOPRISM_ADMIN_USER=admin          # 管理员用户名
+      - PHOTOPRISM_ADMIN_PASSWORD=admin      # 用户密码
+      - PHOTOPRISM_DATABASE_DRIVER=mariadb
+      - PHOTOPRISM_DATABASE_DSN=photoprism:photoprism@tcp(database:3306)/photoprism?loc=Local&parseTime=true
+    ports:
+      - "2342:2342"
+    volumes:
+      - ./config:/photoprism/config                     # 挂载配置和设置文件
+      - ./storage:/photoprism/storage                   # PhotoPrism 索引和缓存数据存储路径
+      - /path/to/your/photos:/photoprism/originals      # 你的本地照片存储路径
+    depends_on:
+      - database
+    restart: always

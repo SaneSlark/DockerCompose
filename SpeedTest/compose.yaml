@@ -1,0 +1,16 @@
+services:
+  openspeedtest:
+    image: openspeedtest/latest
+    container_name: openspeedtest
+    network_mode: bridge
+    ports:
+      - "2250:3000"
+    restart: unless-stopped
+
+  adolf_speedtest:
+    image: adolfintel/speedtest
+    container_name: adolfspeedtest
+    network_mode: bridge
+    ports:
+      - "2251:80"
+    restart: unless-stopped

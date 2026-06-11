@@ -1,0 +1,72 @@
+{
+  "options": {
+    "paths": {
+      "root": "/data",
+      "fonts": "fonts",
+      "styles": "styles",
+      "sprites": "sprite",
+      "mbtiles": ""
+    },
+
+    "serve_sources": true,
+    "serve_static_maps": true
+
+  },
+
+    "styles": {
+    
+     "basic-maps": {
+      "style": "basic-maps.json",
+      "tilejson": {
+        "name": "basic-maps",
+        "center": [108.9, 34.2, 4] 
+      }
+    },
+    
+    "basic-satellite": {
+      "style": "basic-satellite.json",
+      "tilejson": {
+        "name": "basic-satellite",
+        "center": [108.9, 34.2, 4]
+      }
+    },
+    
+    "china": {
+      "style": "china-maps.json",
+      "tilejson": {
+        "name": "china-maps",
+        "center": [108.9, 34.2, 4]
+      }
+    },
+    
+    "satellite": {
+      "style": "china-satellite.json",
+      "tilejson": {
+        "name": "china-satellite",
+        "center": [117.3165, 31.7842, 9]
+
+      }
+    }
+
+  },
+  
+  "data": {
+
+    "china": {
+    "pmtiles": "mbtiles/china.pmtiles"
+    },
+    
+    "china-satellite": {
+    "pmtiles": "mbtiles/china-satellite.pmtiles"
+    },
+    
+    "hefei-satellite": {
+    "mbtiles": "mbtiles/hefei-satellite.mbtiles"
+    },
+    
+    "sz-satellite": {
+    "mbtiles": "mbtiles/sz-satellite.mbtiles"
+    }
+    
+  }
+}

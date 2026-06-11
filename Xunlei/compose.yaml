@@ -1,0 +1,18 @@
+services:
+  xunlei:
+    image: cnk3x/xunlei:latest
+    container_name: xunlei
+    network_mode: bridge
+    environment:
+      - XL_DASHBOARD_IP=0.0.0.0
+      - XL_DASHBOARD_USERNAME=admin
+      - XL_DASHBOARD_PASSWORD=password
+      - XL_DIR_DOWNLOAD=/xunlei/downloads
+      - XL_DIR_DATA=/xunlei/data
+    ports:
+      - "2345:2345"  # 宿主机端口:容器端口
+    volumes:
+      - ./data:/xunlei/data
+      - ./downloads:/xunlei/downloads
+    privileged: true
+    restart: unless-stopped

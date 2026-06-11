@@ -1,0 +1,200 @@
+{
+"version": 8,
+  "name": "Basic Maps",
+  "metadata": {
+    "maputnik:renderer": "mlgljs"
+  },
+  "sources": {
+    "china": {
+      "type": "vector",
+      "url": "mbtiles://china" 
+    }
+  },
+  "glyphs": "{fontstack}/{range}.pbf",
+  "sprite": "{stylejsondir}/../sprite",
+  
+"layers": [
+    {
+      "id": "background",
+      "type": "background",
+      "paint": {
+        "background-color": "#f2f4f7"
+      }
+    },
+    {
+      "id": "landcover",
+      "type": "fill",
+      "source": "china",
+      "source-layer": "landcover",
+      "paint": {
+        "fill-color": "#e8f0d8"
+      }
+    },
+    {
+      "id": "landuse",
+      "type": "fill",
+      "source": "china",
+      "source-layer": "landuse",
+      "paint": {
+        "fill-color": "#ddebd0"
+      }
+    },
+    {
+      "id": "park",
+      "type": "fill",
+      "source": "china",
+      "source-layer": "park",
+      "paint": {
+        "fill-color": "#cfe8c8"
+      }
+    },
+    {
+      "id": "water",
+      "type": "fill",
+      "source": "china",
+      "source-layer": "water",
+      "paint": {
+        "fill-color": "#a6cce6"
+      }
+    },
+    {
+      "id": "waterway",
+      "type": "line",
+      "source": "china",
+      "source-layer": "waterway",
+      "paint": {
+        "line-color": "#7bb5e4",
+        "line-width": 0.6
+      }
+    },
+    {
+      "id": "boundary",
+      "type": "line",
+      "source": "china",
+      "source-layer": "boundary",
+      "paint": {
+        "line-color": "#9aa1a9",
+        "line-width": 1
+      }
+    },
+    {
+      "id": "roads",
+      "type": "line",
+      "source": "china",
+      "source-layer": "transportation",
+      "paint": {
+        "line-color": [
+          "match",
+          ["get", "class"],
+          "motorway", "#f2a900",
+          "primary", "#f2d16f",
+          "secondary", "#ffffff",
+          "tertiary", "#e0e0e0",
+          "#cccccc"
+        ],
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          5, 0.5,
+          10, 1.5,
+          14, 3,
+          18, 15
+        ]
+      }
+    },
+    {
+      "id": "road-names",
+      "type": "symbol",
+      "source": "china",
+      "source-layer": "transportation_name",
+      "layout": {
+        "text-field": ["coalesce", ["get", "name:zh"], ["get", "name"]],
+        "text-font": ["Noto Sans"],
+        "text-size": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          5, 8,
+          10, 12,
+          14, 16
+        ],
+        "symbol-placement": "line",
+        "text-rotation-alignment": "map",
+        "text-pitch-alignment": "viewport"
+      },
+      "paint": {
+        "text-color": "#555555",
+        "text-halo-color": "#ffffff",
+        "text-halo-width": 1.5
+      }
+    },
+    {
+      "id": "places",
+      "type": "symbol",
+      "source": "china",
+      "source-layer": "place",
+      "layout": {
+        "text-field": ["coalesce", ["get", "name:zh"], ["get", "name"]],
+        "text-font": ["Noto Sans"],
+        "text-size": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          4, 10,
+          8, 14,
+          12, 18
+        ],
+        "text-max-width": 8
+      },
+      "paint": {
+        "text-color": "#333333",
+        "text-halo-color": "rgba(255, 255, 255, 0.8)",
+        "text-halo-width": 2
+      }
+    },
+    {
+      "id": "poi",
+      "type": "symbol",
+      "source": "china",
+      "source-layer": "poi",
+      "layout": {
+        "text-field": ["coalesce", ["get", "name:zh"], ["get", "name"]],
+        "text-font": ["Noto Sans"],
+        "text-size": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          14, 10,
+          17, 14
+        ],
+        "text-offset": [0, 0.5],
+        "text-anchor": "top"
+      },
+      "paint": {
+        "text-color": "#666666",
+        "text-halo-color": "#ffffff",
+        "text-halo-width": 1
+      }
+    },
+    {
+      "id": "buildings-3d",
+      "type": "fill-extrusion",
+      "source": "china",
+      "source-layer": "building",
+      "minzoom": 13,
+      "paint": {
+        "fill-extrusion-color": "#d2d2d2",
+        "fill-extrusion-height": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          13, 0,
+          14, ["coalesce", ["get", "render_height"], ["get", "height"], 10]
+        ],
+        "fill-extrusion-base": ["coalesce", ["get", "render_min_height"], ["get", "min_height"], 0],
+        "fill-extrusion-opacity": 0.8
+      }
+    }
+  ]
+}

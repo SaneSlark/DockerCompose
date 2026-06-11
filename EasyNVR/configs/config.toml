@@ -1,0 +1,179 @@
+[Server]
+# 公共路由前缀，实验功能，仅供专业用户使用
+PublicPrefix = ''
+# websocket/录像查看/语音对讲等连接地址
+# 如果为空时，默认为内网地址
+Domain = ''
+# 消费者，集群部署时此参数必须唯一
+StorageConsumerName = 'c1'
+# sugar 拉流访问秘钥
+SmsSecret = ''
+# 工作目录，存储快照/临时文件等数据
+WorkDir = ''
+# 前端文件目录，如果存在时优先读取此路径前端文件，相对路径时，其父目录为工作目录
+WWWDir = ''
+# 拉流是否鉴权并设置有效期，防止恶意拉流
+EnabledPullStreamAuth = false
+# 系统默认用户名
+DefaultUsername = 'admin'
+# 系统默认密码
+DefaultPassword = 'admin'
+# 禁用验证码
+DisabledCaptcha = true
+# 禁用状态检查，禁用后设备始终在线
+DisabledStatusCheck = false
+# 禁止代理访问 sms,客户端直连流媒体,可节省一定性能
+DisabledSMSProxy = false
+# 禁止访问外部信息
+DisabledRequestApi = false
+
+# 对外提供的 http 服务
+[Server.HTTP]
+# http 端口
+Port = '10000'
+# 允许跨域的域名，示例 https://baidu.com
+AllowOrigins = []
+# 请求超时时间
+Timeout = '1m10s'
+# jwt 秘钥，空串时，每次启动程序将随机赋值
+JwtSecret = 'easynvr'
+# 第三方鉴权请求的服务地址
+ThirdAuthURL = ''
+# 第三方鉴权失败重定向地址，前端可读取 http header 'x-redirect' 读取到此配置内容
+AuthFailedRedirect = ''
+# 响应头中增加标识["键:值"]
+RespHead = []
+
+[Server.HTTP.Pprof]
+Enabled = true
+# 访问白名单
+AccessIps = ['::1', '127.0.0.1']
+
+# 对外提供的 https 服务
+[Server.HTTPS]
+# https 端口
+Port = 0
+# 证书文件地址, 相对路径时, 其父目录为配置目录
+CertFile = 'cert.pem'
+# 私钥文件地址, 相对路径时, 其父目录为配置目录
+KeyFile = 'key.pem'
+
+[Data]
+# 数据库支持 sqlite 和 postgres 两种，使用 sqlite 时 dsn 应当填写文件存储路径
+[Data.Database]
+# sqlite 相对路径时, 其父目录为配置目录，postgresql 时可填写: postgres://postgres:123456@127.0.0.1:5432/gb28181?sslmode=disable
+Dsn = 'data.db'
+MaxIdleConns = 10
+MaxOpenConns = 50
+ConnMaxLifetime = '6h0m0s'
+SlowThreshold = '100ms'
+
+[Sip]
+Enabled = false
+# 内网 ip 地址 tcp 主动式拉流语音对讲地址
+# 空串时，自动内网 IP，公网不填写会影响部分功能
+LanIP = ''
+# tcp/udp 端口
+Port = '15060'
+CascadePort = '15061'
+Domain = '3402000000'
+UserAgent = 'TSINGSEE'
+ID = '34020000002000000001'
+# 密码不填写允许全部注册，填写则只允许密码正确的设备注册
+Password = ''
+# tcp/udp 推流端口范围(指向 sugar 的端口)
+# tcp 主动式对讲端口范围(指向本服务的端口)
+PortStart = 30000
+PortEnd = 30500
+# 无人观看一定时间后，停流节省流量
+MaxKeepaliveDuration = '1m0s'
+# 级联共享云录像,将在未来版本中弃用
+IsShareCloudRecord = false
+
+[Onvif]
+# 是否禁用设备在线检测，关闭后所有设备都认为在线
+DisableDeviceCheck = false
+# 请求超时时间，接入通道数量较多的设备时可适当将时间调长一点
+ReqTimeout = '3s'
+
+[RTSP]
+# 是否禁用设备在线检测，关闭后所有设备都认为在线
+DisableDeviceCheck = false
+
+[RTMP]
+# 是否禁用设备在线检测，关闭后所有设备都认为在线
+DisableDeviceCheck = false
+
+[[SMS]]
+# 流媒体服务唯一标识
+ServerID = 'local'
+# 简单易懂的名称
+ServerName = '内置流媒体'
+# 用于服务通讯/设备推流地址
+Host = '127.0.0.1'
+# 此流媒体的服务端口
+HTTPPort = 28080
+# 此流媒体的最大并发负载数量
+MaxLoadNum = 300
+
+[Log]
+# 日志存储目录，不能使用特殊符号
+Dir = './logs'
+# 记录级别 debug/info/warn/error
+Level = 'info'
+# 保留日志多久，超过时间自动删除
+MaxAge = '744h0m0s'
+# 多久时间，分割一个新的日志文件
+RotationTime = '8h0m0s'
+# 多大文件，分割一个新的日志文件(MB)
+RotationSize = 50
+
+[NTD]
+Addr = ''
+VKey = ''
+
+[Plugin]
+# 是否显示云组网页面
+NTDEnable = true
+# 是否显示用户修改密码页面
+EditPasswordEnable = true
+# 是否显示GBD二维码
+ShowGBD = true
+# 是否显示激活续费相关
+ShowBuy = true
+# 是否显示子平台列表
+ShowSubplatform = false
+
+[RecordBackup]
+# 是否开启录像备份? true:开启; 支持 s3 对象存储(MinIO/阿里云/腾讯云/天翼云...)
+Enabled = false
+# access key
+Key = ''
+# secret key
+Secret = ''
+# endpoint
+Endpoint = ''
+# region
+Region = ''
+# bucket
+Bucket = ''
+# 超时时间（毫秒）
+Timeout = 60000
+# 并发上传文件数
+Concurrency = 6
+# 存储天数
+BucketExpirationDay = 0
+# 下级平台需要保证唯一
+MachineID = 0
+# 当前推送服务名称
+ServerName = ''
+# 当前服务的url
+ServerURL = ''
+
+[DataSync]
+# 是否启用数据同步
+Enabled = false
+# 数据同步地址
+Address = '127.0.0.1:10000'
+# 数据同步间隔时间
+Duration = '5s'

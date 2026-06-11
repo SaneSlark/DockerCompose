@@ -1,0 +1,10 @@
+services:
+  cookiecloud:
+    image: easychen/cookiecloud:latest
+    container_name: CookieCloud
+    network_mode: bridge
+    ports:
+      - 2249:8088
+    volumes:
+      - ./data:/data/api/data
+    restart: unless-stopped

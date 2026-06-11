@@ -1,0 +1,9 @@
+services:
+  nps:
+    image: duan2001/nps
+    container_name: nps
+    network_mode: host
+    restart: always
+    volumes:
+      - ./conf:/conf    # 挂载本地conf目录到容器
+      - /etc/localtime:/etc/localtime:ro   # 同步宿主机时间

@@ -1,0 +1,34 @@
+# 录像
+[Storage]
+# 存储路径，支持绝对路径和相对路径
+Path = './r'
+# 存储天数
+Days = 31
+# 存储使用率(%)
+DiskUsageRatio = 80.0
+# 分片时长，单位秒
+FragmentDurationS = 60
+# 录像文件格式
+Format = 'mp4'
+# 开启第三方云服务对象存储
+EnabledCloudStorage = false
+# access key
+Key = ''
+# secret key
+Secret = ''
+# endpoint
+Endpoint = ''
+# region
+Region = ''
+# bucket
+Bucket = ''
+# 超时时间（毫秒）
+Timeout = 30000
+# 重试次数
+Retry = 0
+# 并发上传文件数
+Concurrency = 8
+# 缓冲队列长度
+QueueLength = 512
+# 重试策略,0:存入磁盘;1:丢弃
+RetryStrategy = 0

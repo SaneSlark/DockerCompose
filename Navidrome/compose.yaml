@@ -1,0 +1,20 @@
+services:
+  navidrome:
+    image: deluan/navidrome:latest
+    container_name: navidrome
+    network_mode: bridge
+    environment:
+      - ND_PORT=2266                # 容器内服务端口
+      - ND_DATAFOLDER=/data         # 数据文件夹路径（容器内）
+      - ND_MUSICFOLDER=/music       # 音乐文件夹路径（容器内）
+      - GODEBUG=asyncpreemptoff=1   # Go调试设置
+      - ND_DEFAULTLANGUAGE=zh-Hans  # 默认语言：简体中文
+      - ND_DEFAULTTHEME=Dark        # 默认主题：深色
+      - ND_UIWELCOMEMESSAGE=欢迎使用荷花音乐分享平台!    # 欢迎消息
+      - ND_UILOGINBACKGROUND=https://www.pixiv.net  # 登录背景图片URL
+    ports:
+       - 2266:2266
+    volumes:
+       - ./data:/data:rw    # 数据目录挂载
+       - ./music:/music:rw  # 音乐目录挂载
+    restart: unless-stopped

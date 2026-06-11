@@ -1,0 +1,17 @@
+services:
+  3xui:
+    image: ghcr.io/mhsanaei/3x-ui:latest
+    container_name: 3xui
+    hostname: hehuacloud
+    network_mode: host
+    environment:
+      - TZ=Asia/Shanghai
+      - XRAY_VMESS_AEAD_FORCED=false
+      - XUI_ENABLE_FAIL2BAN=true
+    ports:
+      - 2053:2053
+    volumes:
+      - ./:/etc/x-ui/       # 映射数据库和配置文件，防止重启丢失数据
+      - ./:/root/cert/      # 映射证书目录，方便申请 SSL 证书后直接挂载
+    tty: true
+    restart: unless-stopped

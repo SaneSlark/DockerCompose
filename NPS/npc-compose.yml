@@ -1,0 +1,10 @@
+services:
+  npc:
+    image: duan2001/npc
+    container_name: npc
+    network_mode: host
+    restart: always
+    command:
+      - "-server=192.168.1.100:2201"
+      - "-vkey=2y8ttiqci07etyoy"
+      - "-type=tcp"

@@ -1,0 +1,22 @@
+# 文件名：docker-compose-serve.yml
+# 用途：启动 tileserver-gl，提供地图瓦片 + Web 预览界面
+# 使用方式： docker compose -f docker-compose-serve.yml up -d
+
+services:
+  tileserver:
+    image: maptiler/tileserver-gl:latest
+    container_name: osm-tileserver
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data/osm:/data
+    command: >
+      --file /data/china.pmtiles
+      --verbose
+    # healthcheck 可选
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3

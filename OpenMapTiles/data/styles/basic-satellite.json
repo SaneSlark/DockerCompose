@@ -1,0 +1,115 @@
+{
+  "version": 8,
+  "name": "Basic Satellite",
+  "metadata": {
+    "mapbox:autocomposite": false
+  },
+  "sources": {
+    "sate-src": {
+      "type": "raster",
+      "url": "pmtiles://china-satellite",
+      "tileSize": 256,
+      "attribution": "Satellite Imagery"
+    },
+    "openmaptiles": {
+      "type": "vector",
+     "url": "pmtiles://china"
+    }
+  },
+  "glyphs": "{fontstack}/{range}.pbf",
+  "layers": [
+    {
+      "id": "background",
+      "type": "background",
+      "paint": {
+        "background-color": "#000000"
+      }
+    },
+    {
+      "id": "satellite-layer",
+      "type": "raster",
+      "source": "sate-src",
+      "minzoom": 0,
+      "maxzoom": 22
+    },
+    {
+      "id": "admin-boundaries",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "boundary",
+      "filter": ["all", ["==", "admin_level", 2], ["==", "maritime", 0]],
+      "paint": {
+        "line-color": "#ffcc00",
+        "line-width": {"stops": [[3, 1], [10, 2]]},
+        "line-opacity": 0.8
+      }
+    },
+    {
+      "id": "roads-casing",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "minzoom": 12,
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "#000000",
+        "line-opacity": 0.5,
+        "line-width": {"stops": [[12, 2], [18, 12]]}
+      }
+    },
+    {
+      "id": "roads-inner",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "minzoom": 12,
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "#ffffff",
+        "line-opacity": 0.7,
+        "line-width": {"stops": [[12, 1], [18, 8]]}
+      }
+    },
+    {
+      "id": "place-labels",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "place",
+      "layout": {
+        "text-field": "{name:zh}",
+        "text-font": ["Noto Sans Regular"],
+        "text-size": {"stops": [[4, 11], [12, 18]]},
+        "text-max-width": 8,
+        "text-padding": 2
+      },
+      "paint": {
+        "text-color": "#ffffff",
+        "text-halo-color": "rgba(0,0,0,0.8)",
+        "text-halo-width": 2
+      }
+    },
+    {
+      "id": "poi-labels",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 14,
+      "layout": {
+        "text-field": "{name:zh}",
+        "text-font": ["Noto Sans Regular"],
+        "text-size": 12
+      },
+      "paint": {
+        "text-color": "#51ffff",
+        "text-halo-color": "rgba(0,0,0,0.8)",
+        "text-halo-width": 1.5
+      }
+    }
+  ]
+}
